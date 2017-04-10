@@ -1,11 +1,25 @@
 'use strict';
 
-var openOeverlay = function () {
+var picturesContainer = document.querySelector('.pictures');
+var galleryOverlayClose = document.querySelector('.gallery-overlay-close');
+var pictureBlock = picturesContainer.querySelectorAll('.picture');
+
+var openGallery = function () {
+  var galleryOverlay = document.querySelector('.gallery-overlay');
+  galleryOverlay.classList.remove('invisible');
+};
+
+var closeGallery = function () {
+  var galleryOverlay = document.querySelector('.gallery-overlay');
+  galleryOverlay.classList.add('invisible');
+};
+
+var openOverlay = function () {
   var uploadOverlay = document.querySelector('.upload-overlay');
   uploadOverlay.classList.add('invisible');
 };
 
-openOeverlay();
+openOverlay();
 
 var arrayPhotos = function () {
   var photos = [];
@@ -48,6 +62,8 @@ for (var i = 0; i < listPhotos.length; i++) {
   fragment.appendChild(renderPictures(listPhotos[i]));
 }
 
+picturesContainer.appendChild(fragment);
+
 var galleryImage = document.querySelector('.gallery-overlay-image');
 var likesCount = document.querySelector('.likes-count');
 var commentsCount = document.querySelector('.comments-count');
@@ -60,10 +76,13 @@ var drawPhoto = function (photo) {
 
 drawPhoto(listPhotos);
 
-var openGallery = function () {
-  var galleryOverlay = document.querySelector('.gallery-overlay');
-  galleryOverlay.classList.remove('invisible');
-};
+for (var y = 0; y < pictureBlock.length; y++) {
+  pictureBlock[y].addEventListener('click', function (evt) {
+    evt.preventDefault();
+    openGallery();
+  });
+}
 
-openGallery();
+galleryOverlayClose.addEventListener('click', closeGallery);
+
 
