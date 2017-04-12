@@ -2,9 +2,15 @@
 
 var picturesContainer = document.querySelector('.pictures');
 var galleryOverlayClose = document.querySelector('.gallery-overlay-close');
+var uploadForm = document.querySelector('.upload-image');
+var uploadOverlay = document.querySelector('.upload-overlay');
+var uploadFile = document.querySelector('#upload-file');
+var uploadCancel = document.querySelector('.upload-form-cancel');
+var uploadComment = document.querySelector('.upload-form-description');
+var uploadSubmit = document.querySelector('.upload-form-submit');
+uploadForm.classList.remove('invisible');
 
-var openOverlay = function () {
-  var uploadOverlay = document.querySelector('.upload-overlay');
+var closeOverlay = function () {
   uploadOverlay.classList.add('invisible');
 };
 
@@ -32,7 +38,55 @@ var openGallery = function () {
   });
 };
 
-openOverlay();
+uploadFile.addEventListener('change', function () {
+  uploadOverlay.classList.remove('invisible');
+  uploadCancel.addEventListener('click', function () {
+    uploadFile.value = '';
+    closeOverlay();
+  });
+  uploadCancel.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      uploadFile.value = '';
+      closeOverlay();
+    }
+  });
+
+  uploadComment.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 27) {
+      evt.stopPropagation();
+    }
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 27) {
+      uploadFile.value = '';
+      closeOverlay();
+    }
+  });
+
+  uploadOverlay.addEventListener('click', function (evt) {
+    if (evt.target !== uploadOverlay) {
+      evt.preventDefault();
+    } else {
+      uploadFile.value = '';
+      closeOverlay();
+    }
+  });
+
+  uploadSubmit.addEventListener('click', function () {
+    uploadFile.value = '';
+    closeOverlay();
+  });
+
+  uploadSubmit.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      uploadFile.value = '';
+      closeOverlay();
+    }
+  });
+});
+
+closeOverlay();
 
 var arrayPhotos = function () {
   var photos = [];
@@ -62,7 +116,7 @@ var pictureTemplate = document.querySelector('#picture-template').content;
 
 var renderPictures = function (picture) {
   var pictureElement = pictureTemplate.cloneNode(true);
-
+  pictureElement.querySelector('a.picture').href = picture.url;
   pictureElement.querySelector('img').src = picture.url;
   pictureElement.querySelector('.picture-comments').innerHTML = picture.comments.length;
   pictureElement.querySelector('.picture-likes').innerHTML = picture.likes;
@@ -81,20 +135,31 @@ var galleryImage = document.querySelector('.gallery-overlay-image');
 var likesCount = document.querySelector('.likes-count');
 var commentsCount = document.querySelector('.comments-count');
 
-var drawPhoto = function (photo, index) {
-  galleryImage.src = photo[index].url;
-  likesCount.innerHTML = photo[index].likes;
-  commentsCount.innerHTML = photo[index].comments.length;
+var drawPhoto = function (photo) {
+  galleryImage.src = photo.url;
+  likesCount.innerHTML = photo.likes;
+  commentsCount.innerHTML = photo.comments.length;
 };
 
-drawPhoto(listPhotos, 1);
+var urlPicture = window.location.href.replace('index.html', '');
 
 var pictureBlock = picturesContainer.querySelectorAll('a.picture');
+var getPhotoByUrl = function (url) {
+  var selected = 0;
+  listPhotos.forEach(function (el) {
+    if (urlPicture + el.url === url) {
+
+      selected = el;
+    }
+  });
+  return selected;
+
+};
 
 for (var y = 0; y < pictureBlock.length; y++) {
-
   pictureBlock[y].addEventListener('click', function (evt) {
     evt.preventDefault();
+    drawPhoto(getPhotoByUrl(evt.currentTarget.href));
     openGallery();
   });
 }
