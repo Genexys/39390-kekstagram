@@ -29,6 +29,11 @@ var openGallery = function () {
       closeGallery();
     }
   });
+  galleryOverlayClose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      closeGallery();
+    }
+  });
   galleryOverlay.addEventListener('click', function (evt) {
     if (evt.target !== galleryOverlay) {
       evt.preventDefault();
