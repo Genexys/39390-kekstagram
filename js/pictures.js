@@ -34,6 +34,16 @@ var getFilterImage = function () {
   });
 };
 
+function uploadFormValid() {
+  var inpObj = document.querySelector('.upload-form-description');
+  if (inpObj.checkValidity() === false) {
+    inpObj.style.border = '2px solid red';
+  } else {
+    inpObj.style.border = 'none';
+  }
+  return inpObj.checkValidity();
+}
+
 var openGallery = function () {
   var galleryOverlay = document.querySelector('.gallery-overlay');
   galleryOverlay.classList.remove('invisible');
@@ -84,6 +94,7 @@ uploadFile.addEventListener('change', function () {
     }
   });
   getFilterImage();
+
   // uploadOverlay.addEventListener('click', function (evt) {
   //   if (evt.target !== uploadOverlay) {
   //     evt.preventDefault();
@@ -94,14 +105,18 @@ uploadFile.addEventListener('change', function () {
   // });
 
   uploadSubmit.addEventListener('click', function () {
-    uploadFile.value = '';
-    closeOverlay();
+    if (uploadFormValid()) {
+      uploadFile.value = '';
+      closeOverlay();
+    }
   });
 
   uploadSubmit.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
-      uploadFile.value = '';
-      closeOverlay();
+    if (uploadFormValid()) {
+      if (evt.keyCode === 13) {
+        uploadFile.value = '';
+        closeOverlay();
+      }
     }
   });
 });
@@ -154,7 +169,6 @@ var arrayPhotos = function () {
 };
 
 var listPhotos = arrayPhotos();
-
 
 var pictureTemplate = document.querySelector('#picture-template').content;
 
