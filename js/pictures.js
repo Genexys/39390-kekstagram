@@ -8,11 +8,16 @@ var uploadFile = document.querySelector('#upload-file');
 var uploadCancel = document.querySelector('.upload-form-cancel');
 var uploadComment = document.querySelector('.upload-form-description');
 var uploadSubmit = document.querySelector('.upload-form-submit');
+var btnFilterControl = document.querySelector('.upload-filter-controls');
+var btnMinusZoom = document.querySelector('.upload-resize-controls-button-dec');
+var btnPlusZoom = document.querySelector('.upload-resize-controls-button-inc');
+var valueZoom = document.querySelector('.upload-resize-controls-value');
 uploadForm.classList.remove('invisible');
 
 var closeOverlay = function () {
   uploadOverlay.classList.add('invisible');
 };
+closeOverlay();
 
 var closeGallery = function () {
   var galleryOverlay = document.querySelector('.gallery-overlay');
@@ -69,29 +74,41 @@ uploadFile.addEventListener('change', function () {
     }
   });
 
-  uploadOverlay.addEventListener('click', function (evt) {
-    if (evt.target !== uploadOverlay) {
-      evt.preventDefault();
-    } else {
-      uploadFile.value = '';
-      closeOverlay();
-    }
-  });
+  // uploadOverlay.addEventListener('click', function (evt) {
+  //   if (evt.target !== uploadOverlay) {
+  //     evt.preventDefault();
+  //   } else {
+  //     uploadFile.value = '';
+  //     closeOverlay();
+  //   }
+  // });
 
-  uploadSubmit.addEventListener('click', function () {
-    uploadFile.value = '';
-    closeOverlay();
-  });
-
-  uploadSubmit.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
-      uploadFile.value = '';
-      closeOverlay();
-    }
-  });
+  // uploadSubmit.addEventListener('click', function () {
+  //   uploadFile.value = '';
+  //   closeOverlay();
+  // });
+  //
+  // uploadSubmit.addEventListener('keydown', function (evt) {
+  //   if (evt.keyCode === 13) {
+  //     uploadFile.value = '';
+  //     closeOverlay();
+  //   }
+  // });
 });
 
-closeOverlay();
+btnPlusZoom.addEventListener('click', function () {
+  console.log(valueZoom.value + '25%');
+});
+
+btnFilterControl.addEventListener('click', function (evt) {
+  var label = evt.currentTarget.querySelectorAll('label');
+
+  for (var i = 0; i < label.length; i++) {
+    label[i].addEventListener('click', function (evt) {
+      console.log(evt.currentTarget);
+    });
+  }
+});
 
 var arrayPhotos = function () {
   var photos = [];
@@ -168,5 +185,4 @@ for (var y = 0; y < pictureBlock.length; y++) {
     openGallery();
   });
 }
-
 
