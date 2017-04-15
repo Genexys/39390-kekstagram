@@ -17,6 +17,7 @@ uploadForm.classList.remove('invisible');
 
 var closeOverlay = function () {
   uploadOverlay.classList.add('invisible');
+  imagePreview.style = 'transform: scale(1)';
 };
 closeOverlay();
 
@@ -24,9 +25,9 @@ var closeGallery = function () {
   var galleryOverlay = document.querySelector('.gallery-overlay');
   galleryOverlay.classList.add('invisible');
 };
-
+var countClass = 'filter-none';
 var getFilterImage = function () {
-  var countClass = 'filter-none';
+
   btnFilterControl.addEventListener('change', function (evt) {
     imagePreview.classList.remove(countClass);
     countClass = 'filter-' + evt.target.value;
@@ -97,11 +98,13 @@ uploadFile.addEventListener('change', function () {
   uploadOverlay.classList.remove('invisible');
   uploadCancel.addEventListener('click', function () {
     uploadFile.value = '';
+    imagePreview.classList.remove(countClass);
     closeOverlay();
   });
   uploadCancel.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
       uploadFile.value = '';
+      imagePreview.classList.remove(countClass);
       closeOverlay();
     }
   });
@@ -115,20 +118,11 @@ uploadFile.addEventListener('change', function () {
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 27) {
       uploadFile.value = '';
+      imagePreview.classList.remove(countClass);
       closeOverlay();
     }
   });
   getFilterImage();
-
-  // uploadOverlay.addEventListener('click', function (evt) {
-  //   if (evt.target !== uploadOverlay) {
-  //     evt.preventDefault();
-  //   } else {
-  //     uploadFile.value = '';
-  //     closeOverlay();
-  //   }
-  // });
-
   uploadSubmit.addEventListener('click', function () {
     if (uploadFormValid()) {
       uploadFile.value = '';
