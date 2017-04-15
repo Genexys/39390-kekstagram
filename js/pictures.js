@@ -12,6 +12,7 @@ var btnFilterControl = document.querySelector('.upload-filter-controls');
 var imagePreview = document.querySelector('.filter-image-preview');
 var btnMinusZoom = document.querySelector('.upload-resize-controls-button-dec');
 var btnPlusZoom = document.querySelector('.upload-resize-controls-button-inc');
+var textInputImage = document.querySelector('.upload-form-description');
 var valueZoom = document.querySelector('.upload-resize-controls-value');
 uploadForm.classList.remove('invisible');
 
@@ -62,7 +63,6 @@ var getMinusZoomImage = function () {
 };
 
 var uploadFormValid = function () {
-  var textInputImage = document.querySelector('.upload-form-description');
   if (textInputImage.checkValidity() === false) {
     textInputImage.style.border = '2px solid red';
   } else {
@@ -99,12 +99,14 @@ uploadFile.addEventListener('change', function () {
   uploadCancel.addEventListener('click', function () {
     uploadFile.value = '';
     imagePreview.classList.remove(countClass);
+    textInputImage.style.border = 'none';
     closeOverlay();
   });
   uploadCancel.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
       uploadFile.value = '';
       imagePreview.classList.remove(countClass);
+      textInputImage.style.border = 'none';
       closeOverlay();
     }
   });
@@ -119,6 +121,7 @@ uploadFile.addEventListener('change', function () {
     if (evt.keyCode === 27) {
       uploadFile.value = '';
       imagePreview.classList.remove(countClass);
+      textInputImage.style.border = 'none';
       closeOverlay();
     }
   });
