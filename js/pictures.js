@@ -36,30 +36,26 @@ var getFilterImage = function () {
   });
 };
 
+var MIN_PERCENT = 25;
+var MAX_PERCENT = 100;
+
 var getPlusZoomImage = function () {
-  if (valueZoom.value === '25%') {
-    valueZoom.value = '50%';
-    imagePreview.style = 'transform: scale(0.50)';
-  } else if (valueZoom.value === '50%') {
-    valueZoom.value = '75%';
-    imagePreview.style = 'transform: scale(0.75)';
-  } else if (valueZoom.value === '75%') {
-    valueZoom.value = '100%';
-    imagePreview.style = 'transform: scale(1)';
-  }
+  var percentValue = parseInt(valueZoom.value, 10) + MIN_PERCENT;
+  percentValue = (percentValue > MAX_PERCENT) ? MAX_PERCENT : percentValue;
+
+  setNewPersent(percentValue);
 };
 
 var getMinusZoomImage = function () {
-  if (valueZoom.value === '100%') {
-    valueZoom.value = '75%';
-    imagePreview.style = 'transform: scale(0.75)';
-  } else if (valueZoom.value === '75%') {
-    valueZoom.value = '50%';
-    imagePreview.style = 'transform: scale(0.50)';
-  } else if (valueZoom.value === '50%') {
-    valueZoom.value = '25%';
-    imagePreview.style = 'transform: scale(0.25)';
-  }
+  var percentValue = parseInt(valueZoom.value, 10) - MIN_PERCENT;
+  percentValue = (percentValue < MIN_PERCENT) ? MIN_PERCENT : percentValue;
+
+  setNewPersent(percentValue);
+};
+
+var setNewPersent = function (percentValue) {
+  valueZoom.value = percentValue + '%';
+  imagePreview.style = 'transform: scale(' + (percentValue / 100) + ')';
 };
 
 var uploadFormValid = function () {
@@ -222,4 +218,3 @@ for (var y = 0; y < pictureBlock.length; y++) {
     openGallery();
   });
 }
-
