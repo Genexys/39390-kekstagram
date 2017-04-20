@@ -3,7 +3,7 @@
 window.arrayPhotos = (function () {
   var photos = [];
 
-  var photosComments = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.']
+  var photosComments = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.'];
 
   var getRandomArbitary = function (min, max) {
     return Math.floor(Math.random() * (max - min) + min);

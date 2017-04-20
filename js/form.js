@@ -1,23 +1,21 @@
 'use strict';
-
-window.form = (function () {
+window.formPictire = (function () {
   var uploadForm = document.querySelector('.upload-image');
-  var uploadFile = document.querySelector('#upload-file');
-  var uploadCancel = document.querySelector('.upload-form-cancel');
-  var uploadComment = document.querySelector('.upload-form-description');
-  var uploadSubmit = document.querySelector('.upload-form-submit');
-  var btnFilterControl = document.querySelector('.upload-filter-controls');
-  var imagePreview = document.querySelector('.filter-image-preview');
-  var btnMinusZoom = document.querySelector('.upload-resize-controls-button-dec');
-  var btnPlusZoom = document.querySelector('.upload-resize-controls-button-inc');
+  var uploadOverlay = document.querySelector('.upload-overlay');
+  var uploadFile = uploadForm.querySelector('#upload-file');
+  var uploadCancel = uploadOverlay.querySelector('.upload-form-cancel');
+  var uploadSubmit = uploadOverlay.querySelector('.upload-form-submit');
+  var btnFilterControl = uploadOverlay.querySelector('.upload-filter-controls');
+  var imagePreview = uploadOverlay.querySelector('.filter-image-preview');
+  var btnMinusZoom = uploadOverlay.querySelector('.upload-resize-controls-button-dec');
+  var btnPlusZoom = uploadOverlay.querySelector('.upload-resize-controls-button-inc');
   var textInputImage = document.querySelector('.upload-form-description');
-  var valueZoom = document.querySelector('.upload-resize-controls-value');
+  var valueZoom = uploadOverlay.querySelector('.upload-resize-controls-value');
 
 
   uploadForm.classList.remove('invisible');
   var countClass = 'filter-none';
   var getFilterImage = function () {
-
     btnFilterControl.addEventListener('change', function (evt) {
       imagePreview.classList.remove(countClass);
       countClass = 'filter-' + evt.target.value;
@@ -61,18 +59,20 @@ window.form = (function () {
       uploadFile.value = '';
       imagePreview.classList.remove(countClass);
       textInputImage.style.border = 'none';
-      window.pictures.closeOverlay();
+      imagePreview.style = 'transform: scale(1)';
+      closeOverlay();
     });
     uploadCancel.addEventListener('keydown', function (evt) {
       if (evt.keyCode === 13) {
         uploadFile.value = '';
         imagePreview.classList.remove(countClass);
         textInputImage.style.border = 'none';
-        window.pictures.closeOverlay();
+        imagePreview.style = 'transform: scale(1)';
+        closeOverlay();
       }
     });
 
-    uploadComment.addEventListener('keydown', function (evt) {
+    textInputImage.addEventListener('keydown', function (evt) {
       if (evt.keyCode === 27) {
         evt.stopPropagation();
       }
@@ -83,14 +83,16 @@ window.form = (function () {
         uploadFile.value = '';
         imagePreview.classList.remove(countClass);
         textInputImage.style.border = 'none';
-        window.pictures.closeOverlay();
+        imagePreview.style = 'transform: scale(1)';
+        closeOverlay();
       }
     });
     getFilterImage();
     uploadSubmit.addEventListener('click', function () {
       if (uploadFormValid()) {
         uploadFile.value = '';
-        window.pictures.closeOverlay();
+        imagePreview.style = 'transform: scale(1)';
+        closeOverlay();
       }
     });
 
@@ -98,7 +100,8 @@ window.form = (function () {
       if (uploadFormValid()) {
         if (evt.keyCode === 13) {
           uploadFile.value = '';
-          window.pictures.closeOverlay();
+          imagePreview.style = 'transform: scale(1)';
+          closeOverlay();
         }
       }
     });
@@ -111,4 +114,12 @@ window.form = (function () {
   btnMinusZoom.addEventListener('click', function () {
     getMinusZoomImage();
   });
+
+  var closeOverlay = function () {
+    uploadOverlay.classList.add('invisible');
+  };
+
+  return {
+    closeOverlay: closeOverlay
+  };
 })();
