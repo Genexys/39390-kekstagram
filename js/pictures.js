@@ -8,15 +8,62 @@ var uploadFile = document.querySelector('#upload-file');
 var uploadCancel = document.querySelector('.upload-form-cancel');
 var uploadComment = document.querySelector('.upload-form-description');
 var uploadSubmit = document.querySelector('.upload-form-submit');
+var btnFilterControl = document.querySelector('.upload-filter-controls');
+var imagePreview = document.querySelector('.filter-image-preview');
+var btnMinusZoom = document.querySelector('.upload-resize-controls-button-dec');
+var btnPlusZoom = document.querySelector('.upload-resize-controls-button-inc');
+var textInputImage = document.querySelector('.upload-form-description');
+var valueZoom = document.querySelector('.upload-resize-controls-value');
 uploadForm.classList.remove('invisible');
 
 var closeOverlay = function () {
   uploadOverlay.classList.add('invisible');
+  imagePreview.style = 'transform: scale(1)';
 };
+closeOverlay();
 
 var closeGallery = function () {
   var galleryOverlay = document.querySelector('.gallery-overlay');
   galleryOverlay.classList.add('invisible');
+};
+var countClass = 'filter-none';
+var getFilterImage = function () {
+
+  btnFilterControl.addEventListener('change', function (evt) {
+    imagePreview.classList.remove(countClass);
+    countClass = 'filter-' + evt.target.value;
+    imagePreview.classList.add(countClass);
+  });
+};
+
+var MIN_PERCENT = 25;
+var MAX_PERCENT = 100;
+
+var getPlusZoomImage = function () {
+  var percentValue = parseInt(valueZoom.value, 10) + MIN_PERCENT;
+  percentValue = (percentValue > MAX_PERCENT) ? MAX_PERCENT : percentValue;
+
+  setNewPersent(percentValue);
+};
+
+var getMinusZoomImage = function () {
+  var percentValue = parseInt(valueZoom.value, 10) - MIN_PERCENT;
+  percentValue = (percentValue < MIN_PERCENT) ? MIN_PERCENT : percentValue;
+
+  setNewPersent(percentValue);
+};
+
+var setNewPersent = function (percentValue) {
+  valueZoom.value = percentValue + '%';
+  imagePreview.style = 'transform: scale(' + (percentValue / 100) + ')';
+};
+
+var uploadFormValid = function () {
+  if (textInputImage.checkValidity() === false) {
+    textInputImage.style.border = '2px solid red';
+  } else {
+    textInputImage.style.border = 'none';
+  }
 };
 
 var openGallery = function () {
@@ -47,11 +94,15 @@ uploadFile.addEventListener('change', function () {
   uploadOverlay.classList.remove('invisible');
   uploadCancel.addEventListener('click', function () {
     uploadFile.value = '';
+    imagePreview.classList.remove(countClass);
+    textInputImage.style.border = 'none';
     closeOverlay();
   });
   uploadCancel.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
       uploadFile.value = '';
+      imagePreview.classList.remove(countClass);
+      textInputImage.style.border = 'none';
       closeOverlay();
     }
   });
@@ -65,33 +116,36 @@ uploadFile.addEventListener('change', function () {
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 27) {
       uploadFile.value = '';
+      imagePreview.classList.remove(countClass);
+      textInputImage.style.border = 'none';
       closeOverlay();
     }
   });
-
-  uploadOverlay.addEventListener('click', function (evt) {
-    if (evt.target !== uploadOverlay) {
-      evt.preventDefault();
-    } else {
+  getFilterImage();
+  uploadSubmit.addEventListener('click', function () {
+    if (uploadFormValid()) {
       uploadFile.value = '';
       closeOverlay();
     }
-  });
-
-  uploadSubmit.addEventListener('click', function () {
-    uploadFile.value = '';
-    closeOverlay();
   });
 
   uploadSubmit.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
-      uploadFile.value = '';
-      closeOverlay();
+    if (uploadFormValid()) {
+      if (evt.keyCode === 13) {
+        uploadFile.value = '';
+        closeOverlay();
+      }
     }
   });
 });
 
-closeOverlay();
+btnPlusZoom.addEventListener('click', function () {
+  getPlusZoomImage();
+});
+
+btnMinusZoom.addEventListener('click', function () {
+  getMinusZoomImage();
+});
 
 var arrayPhotos = function () {
   var photos = [];
@@ -99,7 +153,6 @@ var arrayPhotos = function () {
   var getRandomArbitary = function (min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   };
-
 
   for (var i = 1; i < 26; i++) {
     var obj = {
@@ -110,12 +163,10 @@ var arrayPhotos = function () {
 
     photos.push(obj);
   }
-
   return photos;
 };
 
 var listPhotos = arrayPhotos();
-
 
 var pictureTemplate = document.querySelector('#picture-template').content;
 
@@ -158,7 +209,6 @@ var getPhotoByUrl = function (url) {
     }
   });
   return selected;
-
 };
 
 for (var y = 0; y < pictureBlock.length; y++) {
@@ -168,5 +218,3 @@ for (var y = 0; y < pictureBlock.length; y++) {
     openGallery();
   });
 }
-
-
