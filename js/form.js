@@ -96,7 +96,7 @@ window.formPictire = (function () {
 
   uploadForm.classList.remove('invisible');
 
-    var setNewPersent = function (percentValue) {
+  var setNewPersent = function (percentValue) {
     valueZoom.value = percentValue + '%';
     imagePreview.style = 'transform: scale(' + (percentValue / 100) + ')';
   };
