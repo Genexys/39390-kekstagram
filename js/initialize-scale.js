@@ -1,6 +1,6 @@
 'use strict';
 
-window.initializeScale = function (scaleElement, setNewPersent, valueZoom) {
+window.initializeScale = (function (scaleElement, setNewPersent, valueZoom) {
   var MIN_PERCENT = 25;
   var MAX_PERCENT = 100;
   var getPlusZoomImage = function () {
@@ -24,6 +24,6 @@ window.initializeScale = function (scaleElement, setNewPersent, valueZoom) {
     getMinusZoomImage();
   });
 
-};
+})();
 
 
