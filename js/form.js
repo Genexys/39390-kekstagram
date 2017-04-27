@@ -107,6 +107,7 @@ window.formPictire = (function () {
       filterLineVal.style.width = filterLine.offsetWidth + 'px';
       if (countClass !== 'filter-none') {
         filterLevel.style.display = 'block';
+        imagePreview.removeAttribute('style');
         filterpin.style.left = filterLine.offsetWidth + 'px';
         filterLineVal.style.width = filterLine.offsetWidth + 'px';
       } else {
