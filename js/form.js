@@ -7,10 +7,11 @@ window.formPictire = (function () {
   var uploadSubmit = uploadOverlay.querySelector('.upload-form-submit');
   var btnFilterControl = uploadOverlay.querySelector('.upload-filter-controls');
   var imagePreview = uploadOverlay.querySelector('.filter-image-preview');
-  var btnMinusZoom = uploadOverlay.querySelector('.upload-resize-controls-button-dec');
-  var btnPlusZoom = uploadOverlay.querySelector('.upload-resize-controls-button-inc');
+  var scaleElement = document.querySelector('.upload-resize-controls');
   var textInputImage = document.querySelector('.upload-form-description');
   var valueZoom = uploadOverlay.querySelector('.upload-resize-controls-value');
+  var btnMinusZoom = document.querySelector('.upload-resize-controls-button-dec');
+  var btnPlusZoom = document.querySelector('.upload-resize-controls-button-inc');
   var filterLevel = uploadOverlay.querySelector('.upload-filter-level');
   var filterpin = uploadOverlay.querySelector('.upload-filter-level-pin');
   var filterLineVal = uploadOverlay.querySelector('.upload-filter-level-val');
@@ -116,27 +117,12 @@ window.formPictire = (function () {
     });
   };
 
-  var MIN_PERCENT = 25;
-  var MAX_PERCENT = 100;
-
-  var getPlusZoomImage = function () {
-    var percentValue = parseInt(valueZoom.value, 10) + MIN_PERCENT;
-    percentValue = (percentValue > MAX_PERCENT) ? MAX_PERCENT : percentValue;
-
-    setNewPersent(percentValue);
-  };
-
-  var getMinusZoomImage = function () {
-    var percentValue = parseInt(valueZoom.value, 10) - MIN_PERCENT;
-    percentValue = (percentValue < MIN_PERCENT) ? MIN_PERCENT : percentValue;
-
-    setNewPersent(percentValue);
-  };
-
   var setNewPersent = function (percentValue) {
     valueZoom.value = percentValue + '%';
     imagePreview.style = 'transform: scale(' + (percentValue / 100) + ')';
   };
+
+  window.initializeScale(scaleElement, setNewPersent, valueZoom);
 
   var uploadFormValid = function () {
     if (textInputImage.checkValidity() === false) {
@@ -198,14 +184,6 @@ window.formPictire = (function () {
         }
       }
     });
-  });
-
-  btnPlusZoom.addEventListener('click', function () {
-    getPlusZoomImage();
-  });
-
-  btnMinusZoom.addEventListener('click', function () {
-    getMinusZoomImage();
   });
 
   var closeOverlay = function () {
