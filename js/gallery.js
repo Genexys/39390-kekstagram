@@ -6,7 +6,6 @@
 
   var lastTimeout = null;
   var debounce = function (fun) {
-    console.log(lastTimeout);
     if (lastTimeout !== null) {
       clearTimeout(lastTimeout);
     }
@@ -19,10 +18,10 @@
         getListPhotos(photos);
         break;
       case 'new':
-        getListPhotos(GetNewPhotos(photos));
+        getListPhotos(getNewPhotos(photos));
         break;
       case 'discussed':
-        getListPhotos(GetDiscussedPhotos(photos));
+        getListPhotos(getDiscussedPhotos(photos));
         break;
     }
   };
@@ -40,7 +39,7 @@
     getListPhotos(photos);
   };
 
-  var GetNewPhotos = function () {
+  var getNewPhotos = function () {
     var randomPhoto = [];
 
     var getRandom = function (min, max) {
@@ -56,10 +55,10 @@
     return randomPhoto;
   };
 
-  var GetDiscussedPhotos = function (photos) {
+  var getDiscussedPhotos = function (photos) {
     var discussed = photos.slice(0);
     discussed.sort(function (first, second) {
-      if(first.comments.length < second.comments.length) {
+      if (first.comments.length < second.comments.length) {
         return 1;
       } else if (first.comments.length > second.comments.length) {
         return -1;
@@ -102,7 +101,7 @@
     for (var y = 0; y < pictureBlock.length; y++) {
       pictureBlock[y].addEventListener('click', function (evt) {
         evt.preventDefault();
-        window.preview.GetDrawPhoto(getPhotoByUrl(evt.currentTarget.href));
+        window.preview.getDrawPhoto(getPhotoByUrl(evt.currentTarget.href));
       });
     }
   };
@@ -110,5 +109,3 @@
   window.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data', onLoad, onError);
   window.formPictire.closeOverlay();
 })();
-
-

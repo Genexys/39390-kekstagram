@@ -9,7 +9,7 @@ window.preview = (function () {
     galleryOverlay.classList.add('invisible');
   };
 
-  var GetDrawPhoto = function (photo) {
+  var getDrawPhoto = function (photo) {
     galleryImage.src = photo.url;
     likesCount.innerHTML = photo.likes;
     commentsCount.innerHTML = photo.comments.length;
@@ -39,7 +39,6 @@ window.preview = (function () {
     });
   };
   return {
-    GetDrawPhoto: GetDrawPhoto
+    getDrawPhoto: getDrawPhoto
   };
 })();
-
