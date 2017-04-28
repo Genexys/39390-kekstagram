@@ -29,7 +29,7 @@
   filters.addEventListener('change', function (evt) {
     var currentFilters = evt.target.value;
     debounce(function () {
-        onFilters(currentFilters);
+      onFilters(currentFilters);
     });
   });
 
