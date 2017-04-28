@@ -5,10 +5,8 @@ window.formPictire = (function () {
   var uploadFile = uploadForm.querySelector('#upload-file');
   var uploadCancel = uploadOverlay.querySelector('.upload-form-cancel');
   var uploadSubmit = uploadOverlay.querySelector('.upload-form-submit');
-  var btnFilterControl = uploadOverlay.querySelector('.upload-filter-controls');
   var imagePreview = uploadOverlay.querySelector('.filter-image-preview');
-  var btnMinusZoom = uploadOverlay.querySelector('.upload-resize-controls-button-dec');
-  var btnPlusZoom = uploadOverlay.querySelector('.upload-resize-controls-button-inc');
+  var scaleElement = document.querySelector('.upload-resize-controls');
   var textInputImage = document.querySelector('.upload-form-description');
   var valueZoom = uploadOverlay.querySelector('.upload-resize-controls-value');
   var filterLevel = uploadOverlay.querySelector('.upload-filter-level');
@@ -98,45 +96,12 @@ window.formPictire = (function () {
 
   uploadForm.classList.remove('invisible');
 
-  var getFilterImage = function () {
-    btnFilterControl.addEventListener('change', function (evt) {
-      imagePreview.classList.remove(countClass);
-      countClass = 'filter-' + evt.target.value;
-      imagePreview.classList.add(countClass);
-      filterpin.style.left = filterLine.offsetWidth + 'px';
-      filterLineVal.style.width = filterLine.offsetWidth + 'px';
-      if (countClass !== 'filter-none') {
-        filterLevel.style.display = 'block';
-        imagePreview.removeAttribute('style');
-        filterpin.style.left = filterLine.offsetWidth + 'px';
-        filterLineVal.style.width = filterLine.offsetWidth + 'px';
-      } else {
-        filterLevel.style.display = 'none';
-      }
-    });
-  };
-
-  var MIN_PERCENT = 25;
-  var MAX_PERCENT = 100;
-
-  var getPlusZoomImage = function () {
-    var percentValue = parseInt(valueZoom.value, 10) + MIN_PERCENT;
-    percentValue = (percentValue > MAX_PERCENT) ? MAX_PERCENT : percentValue;
-
-    setNewPersent(percentValue);
-  };
-
-  var getMinusZoomImage = function () {
-    var percentValue = parseInt(valueZoom.value, 10) - MIN_PERCENT;
-    percentValue = (percentValue < MIN_PERCENT) ? MIN_PERCENT : percentValue;
-
-    setNewPersent(percentValue);
-  };
-
   var setNewPersent = function (percentValue) {
     valueZoom.value = percentValue + '%';
     imagePreview.style = 'transform: scale(' + (percentValue / 100) + ')';
   };
+
+  window.initializeScale(scaleElement, setNewPersent, valueZoom);
 
   var uploadFormValid = function () {
     if (textInputImage.checkValidity() === false) {
@@ -180,7 +145,23 @@ window.formPictire = (function () {
         closeOverlay();
       }
     });
-    getFilterImage();
+    var applyFilter = function (oldClass) {
+      imagePreview.classList.remove(countClass);
+      countClass = 'filter-' + oldClass;
+      imagePreview.classList.add(countClass);
+      filterpin.style.left = filterLine.offsetWidth + 'px';
+      filterLineVal.style.width = filterLine.offsetWidth + 'px';
+
+      if (countClass !== 'filter-none') {
+        filterLevel.style.display = 'block';
+        imagePreview.removeAttribute('style');
+        filterpin.style.left = filterLine.offsetWidth + 'px';
+        filterLineVal.style.width = filterLine.offsetWidth + 'px';
+      } else {
+        filterLevel.style.display = 'none';
+      }
+    };
+    window.getFilterImage(applyFilter, countClass);
     uploadSubmit.addEventListener('click', function () {
       if (uploadFormValid()) {
         uploadFile.value = '';
@@ -198,14 +179,6 @@ window.formPictire = (function () {
         }
       }
     });
-  });
-
-  btnPlusZoom.addEventListener('click', function () {
-    getPlusZoomImage();
-  });
-
-  btnMinusZoom.addEventListener('click', function () {
-    getMinusZoomImage();
   });
 
   var closeOverlay = function () {
