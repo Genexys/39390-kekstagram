@@ -2,20 +2,13 @@
 (function () {
   var onLoad = function (data) {
     var photos = data;
+
     getListPhotos(photos);
   };
 
   var onError = function (errorMessage) {
     var errorBlock = document.createElement('div');
-    errorBlock.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: #232321;';
-    errorBlock.style.position = 'absolute';
-    errorBlock.style.left = '50%';
-    errorBlock.style.top = '50%';
-    errorBlock.style.transform = 'translate(-50%, -50%)';
-    errorBlock.style.height = '200px';
-    errorBlock.style.fontSize = '30px';
-    errorBlock.style.lineHeight = '200px';
-
+    errorBlock.setAttribute('class', 'error-block');
     errorBlock.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', errorBlock);
   };

@@ -809,3 +809,17 @@ input[type=radio]:checked + .upload-filter-label .upload-filter-preview {
 .footer-social-item-vk {
   background-position: -84px 0;
 }
+
+.error-block {
+  z-index: 100;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #232321;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 200px;
+  font-size: 30px;
+  line-height: 200px;
+}
