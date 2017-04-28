@@ -6,7 +6,6 @@
 
   var lastTimeout = null;
   var debounce = function (fun) {
-    console.log(lastTimeout);
     if (lastTimeout !== null) {
       clearTimeout(lastTimeout);
     }
@@ -19,19 +18,19 @@
         getListPhotos(photos);
         break;
       case 'new':
-        getListPhotos(GetNewPhotos(photos));
+        getListPhotos(getNewPhotos(photos));
         break;
       case 'discussed':
-        getListPhotos(GetDiscussedPhotos(photos));
+        getListPhotos(getDiscussedPhotos(photos));
         break;
     }
   };
 
   filters.addEventListener('change', function (evt) {
     var currentFilters = evt.target.value;
-      debounce(function () {
-        onFilters(currentFilters);
-      });
+    debounce(function () {
+      onFilters(currentFilters);
+    });
   });
 
   var onLoad = function (data) {
@@ -40,7 +39,7 @@
     getListPhotos(photos);
   };
 
-  var GetNewPhotos = function () {
+  var getNewPhotos = function () {
     var randomPhoto = [];
 
     var getRandom = function (min, max) {
@@ -56,10 +55,10 @@
     return randomPhoto;
   };
 
-  var GetDiscussedPhotos = function (photos) {
-    var discussed = photos.slice(0);
+  var getDiscussedPhotos = function (photosArray) {
+    var discussed = photosArray.slice(0);
     discussed.sort(function (first, second) {
-      if(first.comments.length < second.comments.length) {
+      if (first.comments.length < second.comments.length) {
         return 1;
       } else if (first.comments.length > second.comments.length) {
         return -1;
@@ -78,12 +77,12 @@
     document.body.insertAdjacentElement('afterbegin', errorBlock);
   };
 
-  var getListPhotos = function (photos) {
+  var getListPhotos = function (photosArray) {
     var picturesContainer = document.querySelector('.pictures');
     picturesContainer.innerHTML = '';
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
-      fragment.appendChild(window.picture.render(photos[i]));
+    for (var i = 0; i < photosArray.length; i++) {
+      fragment.appendChild(window.picture.render(photosArray[i]));
     }
     picturesContainer.appendChild(fragment);
 
@@ -91,7 +90,7 @@
     var pictureBlock = document.querySelectorAll('a.picture');
     var getPhotoByUrl = function (url) {
       var selected = 0;
-      photos.forEach(function (el) {
+      photosArray.forEach(function (el) {
         if (urlPicture + el.url === url) {
           selected = el;
         }
@@ -102,7 +101,7 @@
     for (var y = 0; y < pictureBlock.length; y++) {
       pictureBlock[y].addEventListener('click', function (evt) {
         evt.preventDefault();
-        window.preview.GetDrawPhoto(getPhotoByUrl(evt.currentTarget.href));
+        window.preview.getDrawPhoto(getPhotoByUrl(evt.currentTarget.href));
       });
     }
   };
@@ -110,5 +109,3 @@
   window.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data', onLoad, onError);
   window.formPictire.closeOverlay();
 })();
-
-
