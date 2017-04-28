@@ -6,7 +6,6 @@
 
   var lastTimeout = null;
   var debounce = function (fun) {
-    console.log(lastTimeout);
     if (lastTimeout !== null) {
       clearTimeout(lastTimeout);
     }
@@ -59,7 +58,7 @@
   var GetDiscussedPhotos = function (photos) {
     var discussed = photos.slice(0);
     discussed.sort(function (first, second) {
-      if(first.comments.length < second.comments.length) {
+      if (first.comments.length < second.comments.length) {
         return 1;
       } else if (first.comments.length > second.comments.length) {
         return -1;
