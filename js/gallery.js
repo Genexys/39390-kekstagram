@@ -1,14 +1,8 @@
 'use strict';
 (function () {
-  var picturesContainer = document.querySelector('.pictures');
-  var urlPicture = window.location.href.replace('index.html', '');
-
   var onLoad = function (data) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(window.picture.renderPicture(data[i]));
-    }
-    picturesContainer.appendChild(fragment);
+    var photos = data;
+    getListPhotos(photos);
   };
 
   var onError = function (errorMessage) {
@@ -26,27 +20,36 @@
     document.body.insertAdjacentElement('afterbegin', errorBlock);
   };
 
-  var pictureBlock = document.querySelectorAll('a.picture');
-  var getPhotoByUrl = function (url) {
-    var selected = 0;
-    window.arrayPhotos.forEach(function (el) {
-      if (urlPicture + el.url === url) {
+  var getListPhotos = function (photos) {
+    var picturesContainer = document.querySelector('.pictures');
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < photos.length; i++) {
+      fragment.appendChild(window.picture.renderPicture(photos[i]));
+    }
+    picturesContainer.appendChild(fragment);
 
-        selected = el;
-      }
-    });
-    return selected;
+    var urlPicture = window.location.href.replace('index.html', '');
+    var pictureBlock = document.querySelectorAll('a.picture');
+    var getPhotoByUrl = function (url) {
+      var selected = 0;
+      photos.forEach(function (el) {
+        if (urlPicture + el.url === url) {
+
+          selected = el;
+        }
+      });
+      return selected;
+    };
+
+    for (var y = 0; y < pictureBlock.length; y++) {
+      pictureBlock[y].addEventListener('click', function (evt) {
+        evt.preventDefault();
+        window.preview.drawPhoto(getPhotoByUrl(evt.currentTarget.href));
+      });
+    }
   };
 
-  for (var y = 0; y < pictureBlock.length; y++) {
-    pictureBlock[y].addEventListener('click', function (evt) {
-      evt.preventDefault();
-      window.preview.drawPhoto(getPhotoByUrl(evt.currentTarget.href));
-    });
-  }
-
   window.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data', onLoad, onError);
-
   window.formPictire.closeOverlay();
 })();
 
