@@ -2,7 +2,7 @@
 
 window.picture = (function () {
   var pictureTemplate = document.querySelector('#picture-template').content;
-  var renderPicture = function (picture) {
+  var render = function (picture) {
     var pictureElement = pictureTemplate.cloneNode(true);
     pictureElement.querySelector('a.picture').href = picture.url;
     pictureElement.querySelector('img').src = picture.url;
@@ -12,6 +12,6 @@ window.picture = (function () {
     return pictureElement;
   };
   return {
-    renderPicture: renderPicture
+    render: render
   };
 })();
