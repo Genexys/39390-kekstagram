@@ -28,9 +28,9 @@
 
   filters.addEventListener('change', function (evt) {
     var currentFilters = evt.target.value;
-      debounce(function () {
+    debounce(function () {
         onFilters(currentFilters);
-      });
+    });
   });
 
   var onLoad = function (data) {
@@ -55,8 +55,8 @@
     return randomPhoto;
   };
 
-  var getDiscussedPhotos = function (photos) {
-    var discussed = photos.slice(0);
+  var getDiscussedPhotos = function (photosArray) {
+    var discussed = photosArray.slice(0);
     discussed.sort(function (first, second) {
       if (first.comments.length < second.comments.length) {
         return 1;
@@ -77,12 +77,12 @@
     document.body.insertAdjacentElement('afterbegin', errorBlock);
   };
 
-  var getListPhotos = function (photos) {
+  var getListPhotos = function (photosArray) {
     var picturesContainer = document.querySelector('.pictures');
     picturesContainer.innerHTML = '';
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
-      fragment.appendChild(window.picture.render(photos[i]));
+    for (var i = 0; i < photosArray.length; i++) {
+      fragment.appendChild(window.picture.render(photosArray[i]));
     }
     picturesContainer.appendChild(fragment);
 
@@ -90,7 +90,7 @@
     var pictureBlock = document.querySelectorAll('a.picture');
     var getPhotoByUrl = function (url) {
       var selected = 0;
-      photos.forEach(function (el) {
+      photosArray.forEach(function (el) {
         if (urlPicture + el.url === url) {
           selected = el;
         }
