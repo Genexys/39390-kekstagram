@@ -30,5 +30,5 @@ window.loadData = (function () {
 
   return {
     load: load
-  }
+  };
 })();
