@@ -107,7 +107,7 @@
     }
   };
 
-  window.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data', onLoad, onError);
+  window.loadData.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data', onLoad, onError);
   window.formPictire.closeOverlay();
 })();
 
