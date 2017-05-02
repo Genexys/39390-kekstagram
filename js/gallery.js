@@ -1,5 +1,5 @@
 'use strict';
-(function () {
+(function (loadData, formPicture) {
   var photos;
   var filters = document.querySelector('.filters');
   var DEBOUNCE_INTERVAL = 300;
@@ -106,6 +106,6 @@
     }
   };
 
-  window.loadData.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data', onLoad, onError);
-  window.formPictire.closeOverlay();
-})();
+  loadData.load('https://intensive-javascript-server-kjgvxfepjl.now.sh/kekstagram/data', onLoad, onError);
+  formPicture.closeOverlay();
+})(window.loadData, window.formPicture);

@@ -1,5 +1,5 @@
 'use strict';
-window.formPictire = (function () {
+window.formPicture = (function () {
   var uploadForm = document.querySelector('.upload-image');
   var uploadOverlay = document.querySelector('.upload-overlay');
   var uploadFile = uploadForm.querySelector('#upload-file');
